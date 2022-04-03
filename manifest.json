@@ -1,0 +1,18 @@
+{
+  "name": "Amogus Finder",
+  "manifest_version": 3,
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["https://hot-potato.reddit.com/*"],
+      "js": ["inject.js"],
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["main.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

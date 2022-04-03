@@ -169,25 +169,25 @@ function hex(c) {
 const topBarOffset = 20;
 const findAmogus = (canvasContext) => {
   console.log(canvasContext.canvas, canvasContext);
-  const imgData = canvasContext.getImageData(0, 0, 2000, 1000);
+  const imgData = canvasContext.getImageData(0, 0, 2000, 2000);
   const { data: pixelData } = imgData;
 
   const outCanvas = document.createElement("canvas");
   outCanvas.width = 2000;
-  outCanvas.height = 1000 + topBarOffset;
+  outCanvas.height = 2000 + topBarOffset;
 
   const outContext = outCanvas.getContext("2d");
   outContext.imageSmoothingEnabled = false;
   outContext.fillStyle = "#000000";
-  outContext.fillRect(0, 0, 2000, 1000 + topBarOffset);
+  outContext.fillRect(0, 0, 2000, 2000 + topBarOffset);
   outContext.putImageData(imgData, 0, topBarOffset);
   outContext.globalAlpha = 0.75;
   outContext.fillStyle = "#000000";
-  outContext.fillRect(0, topBarOffset, 2000, 1000);
+  outContext.fillRect(0, topBarOffset, 2000, 2000);
   outContext.globalAlpha = 1.0;
 
   const getPixel = (x, y) => {
-    if (x >= 2000 || y >= 1000 || x < 0 || y < 0) {
+    if (x >= 2000 || y >= 2000 || x < 0 || y < 0) {
       return null;
     }
 
@@ -204,10 +204,10 @@ const findAmogus = (canvasContext) => {
   };
   window.getPixel = getPixel;
   let amogusLocations = [];
-  const totalPixels = 2000 * 1000;
+  const totalPixels = 2000 * 2000;
   let progress;
   outContext.save();
-  for (let j = 0; j < 1000; j++) {
+  for (let j = 0; j < 2000; j++) {
     for (let i = 0; i < 2000; i++) {
       progress = (j * 2000 + i) / totalPixels;
       // if (progress > 0.01) break;

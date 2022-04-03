@@ -166,36 +166,39 @@ function hex(c) {
   return hex.length == 1 ? "0" + hex : hex;
 }
 
+const canvasWidth = 2000;
+const canvasHeight = 2000;
+
 const topBarOffset = 20;
 const findAmogus = (canvasContext) => {
   console.log(canvasContext.canvas, canvasContext);
-  const imgData = canvasContext.getImageData(0, 0, 2000, 1000);
+  const imgData = canvasContext.getImageData(0, 0, canvasWidth, canvasHeight);
   const { data: pixelData } = imgData;
 
   const outCanvas = document.createElement("canvas");
-  outCanvas.width = 2000;
-  outCanvas.height = 1000 + topBarOffset;
+  outCanvas.width = canvasWidth;
+  outCanvas.height = canvasHeight + topBarOffset;
 
   const outContext = outCanvas.getContext("2d");
   outContext.imageSmoothingEnabled = false;
   outContext.fillStyle = "#000000";
-  outContext.fillRect(0, 0, 2000, 1000 + topBarOffset);
+  outContext.fillRect(0, 0, canvasWidth, canvasHeight + topBarOffset);
   outContext.putImageData(imgData, 0, topBarOffset);
   outContext.globalAlpha = 0.75;
   outContext.fillStyle = "#000000";
-  outContext.fillRect(0, topBarOffset, 2000, 1000);
+  outContext.fillRect(0, topBarOffset, canvasWidth, canvasHeight);
   outContext.globalAlpha = 1.0;
 
   const getPixel = (x, y) => {
-    if (x >= 2000 || y >= 1000 || x < 0 || y < 0) {
+    if (x >= canvasWidth || y >= canvasHeight || x < 0 || y < 0) {
       return null;
     }
 
-    if ((y * 2000 + x) * 4 > 8000000) {
+    if ((y * canvasWidth + x) * 4 > 8000000) {
       debugger;
     }
 
-    const pixelLocation = (y * 2000 + x) * 4;
+    const pixelLocation = (y * canvasWidth + x) * 4;
     // console.log(pixelLocation);
 
     return `#${hex(pixelData[pixelLocation])}${hex(
@@ -204,12 +207,12 @@ const findAmogus = (canvasContext) => {
   };
   window.getPixel = getPixel;
   let amogusLocations = [];
-  const totalPixels = 2000 * 1000;
+  const totalPixels = canvasWidth * canvasHeight;
   let progress;
   outContext.save();
-  for (let j = 0; j < 1000; j++) {
-    for (let i = 0; i < 2000; i++) {
-      progress = (j * 2000 + i) / totalPixels;
+  for (let j = 0; j < canvasHeight; j++) {
+    for (let i = 0; i < canvasWidth; i++) {
+      progress = (j * canvasWidth + i) / totalPixels;
       // if (progress > 0.01) break;
 
       for (let amogus of amogi) {
